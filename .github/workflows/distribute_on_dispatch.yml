@@ -1,0 +1,28 @@
+name: Publiser workflows til andre repoer
+
+on:
+  repository_dispatch:
+    types: distribute-workflows
+
+env:
+  DRY_RUN: ${{ github.event.client_payload.dry_run }}
+
+jobs:
+  build-and-publish-on-master:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Distribute workflows
+        run: |
+          ./distribute_workflows.sh
+        env:
+          API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
+          TEAM_NAME: ""
+          INCLUDE: "varselinnboks"
+          EXCLUDE: ""
+
+
+
+

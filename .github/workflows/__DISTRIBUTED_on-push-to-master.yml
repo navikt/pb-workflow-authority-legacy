@@ -1,0 +1,41 @@
+name: Bygg og publiser docker-image for master
+
+on:
+  push:
+    branches:
+      - master
+    paths-ignore:
+      - .github/workflows/**
+
+jobs:
+  build-and-publish-on-master:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Sjekk ut koden
+        uses: actions/checkout@v2
+
+      - name: Kompiler
+        uses: navikt/pb-common-gh-actions/build@v0.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Bygg, tag og push Docker image
+        uses: navikt/pb-common-gh-actions/docker-publish@v0.2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag release i git-repo-et
+        run: |
+          TAG="$(git log -1 --pretty='%ad' --date=format:'%Y%m%d%H%M%S')-$(git log -1 --pretty='%h')"
+          echo git config user.name "Team Personbruker CI"
+          echo git config user.email "personbruker@nav.no"
+          echo git tag $TAG
+          echo git push origin $TAG
+
+      - name: Vis deploy-knapper i slack
+        uses: navikt/deploy-trigger-slack-integration@v1
+        with:
+          preprod_environments: "q0 q1 q6"
+          slack_channel: "#dittnav-deploy-actions"
+          webhook_url: ${{ secrets.WEBHOOK_URL }}

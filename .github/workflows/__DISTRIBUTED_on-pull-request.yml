@@ -1,0 +1,23 @@
+name: Show deploy buttons on pull request
+
+on: pull_request
+
+jobs:
+  post-deploy-buttons:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Sjekk ut koden
+        uses: actions/checkout@v2
+
+      - name: Finn sha for siste commit
+        run: |
+          git fetch --no-tags --depth=2 origin +refs/pull/*/merge:refs/remotes/origin/pr/*
+          echo "::set-env name=COMMIT_SHA::$(echo $(git log --pretty='%H') | awk '{print $2;}')"
+
+      - name: Vis deploy-knapper i slack
+        uses: navikt/deploy-trigger-slack-integration@v1
+        with:
+          preprod_environments: "q0 q1 q6"
+          slack_channel: "#dittnav-deploy-actions"
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          commit_sha: ${{ env.COMMIT_SHA }}
