@@ -20,6 +20,7 @@ export BASE_TREE_SHA=$(curl -s -u "$API_ACCESS_TOKEN:" "https://api.github.com/r
 ## Find existing workflows in target repository
 EXISTING_WORKFLOWS=$(./find_existing_workflows.sh)
 
+echo $EXISTING_WORKFLOWS
 
 ## Iterate through workflow folder and only include those that differ from target workflows
 for file in ./.github/workflows/__DISTRIBUTED_*; do
