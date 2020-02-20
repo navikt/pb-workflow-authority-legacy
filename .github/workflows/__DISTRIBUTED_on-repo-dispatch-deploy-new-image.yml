@@ -24,13 +24,13 @@ jobs:
           echo "::set-env name=CURRENT_REF::$(git log -1 --pretty='%H')"
 
       - name: Kompiler
-        uses: navikt/pb-common-gh-actions/build@v0.2
+        uses: navikt/pb-common-gh-actions/build@v1
         with:
           SKIP_TESTS: "true"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Bygg, tag og push Docker image
-        uses: navikt/pb-common-gh-actions/docker-publish@v0.2
+        uses: navikt/pb-common-gh-actions/docker-publish@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

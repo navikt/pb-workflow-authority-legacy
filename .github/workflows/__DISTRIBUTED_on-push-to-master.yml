@@ -16,12 +16,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Kompiler
-        uses: navikt/pb-common-gh-actions/build@v0.2
+        uses: navikt/pb-common-gh-actions/build@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Bygg, tag og push Docker image
-        uses: navikt/pb-common-gh-actions/docker-publish@v0.2
+        uses: navikt/pb-common-gh-actions/docker-publish@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
