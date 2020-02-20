@@ -14,7 +14,13 @@ jobs:
           git fetch --no-tags --depth=2 origin +refs/pull/*/merge:refs/remotes/origin/pr/*
           echo "::set-env name=COMMIT_SHA::$(echo $(git log --pretty='%H') | awk '{print $2;}')"
 
+      - name: Sjekk om slack-integrering er mulig
+        run: echo "::set-env name=SLACK_URL_SPECIFIED::$([[ -z $WEBHOOK_URL ]])"
+        env:
+          webhook_url: ${{ secrets.WEBHOOK_URL }}
+
       - name: Vis deploy-knapper i slack
+        if: env.SLACK_URL_SPECIFIED
         uses: navikt/deploy-trigger-slack-integration@v1
         with:
           preprod_environments: "q0 q1 q6"
