@@ -71,6 +71,8 @@ CREATE_TREE_PAYLOAD=$(echo $CREATE_TREE_PAYLOAD | jq -c '.tree = '"$TREE_NODES")
 UPDATED_TREE_SHA=$(curl -s -X POST -u "$API_ACCESS_TOKEN:" --data "$CREATE_TREE_PAYLOAD" "https://api.github.com/repos/$REPOSITORY/git/trees" | jq -r '.sha')
 
 
+SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+
 ## Create commit based on new tree, keep new tree ref
 CREATE_COMMIT_PAYLOAD=$(jq -n -c \
                         --arg message "Sent from $GITHUB_REPOSITORY, version $GITHUB_SHA" \
