@@ -15,12 +15,12 @@ jobs:
           echo "::set-env name=COMMIT_SHA::$(echo $(git log --pretty='%H') | awk '{print $2;}')"
 
       - name: Sjekk om slack-integrering er mulig
-        run: echo "::set-env name=SLACK_URL_SPECIFIED::$([[ -z $WEBHOOK_URL ]])"
+        run: echo "::set-env name=SLACK_URL_SPECIFIED::$([[ ! -z $WEBHOOK_URL ]] && echo 'true' || echo 'false')"
         env:
-          webhook_url: ${{ secrets.WEBHOOK_URL }}
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
 
       - name: Vis deploy-knapper i slack
-        if: env.SLACK_URL_SPECIFIED
+        if: env.SLACK_URL_SPECIFIED == 'true'
         uses: navikt/deploy-trigger-slack-integration@v1
         with:
           preprod_environments: "q0 q1 q6"
