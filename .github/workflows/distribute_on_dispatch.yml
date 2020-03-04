@@ -20,7 +20,7 @@ jobs:
         env:
           API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
           TEAM_NAME: ""
-          INCLUDE: "varselinnboks"
+          INCLUDE: "varselinnboks dittnav-event-aggregator"
           EXCLUDE: ""
 
 
