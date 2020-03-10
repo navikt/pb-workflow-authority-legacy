@@ -23,6 +23,7 @@ EXISTING_WORKFLOWS=$(./find_existing_workflows.sh)
 
 
 ## Iterate through workflow folder and only include those that differ from target workflows
+let TOTAL_FILES_CHANGED=0
 for file in ./.github/workflows/__DISTRIBUTED_*; do
 
   TARGET_FILE_NAME=$(basename -- $file | sed 's/__DISTRIBUTED_//g')
@@ -31,6 +32,7 @@ for file in ./.github/workflows/__DISTRIBUTED_*; do
   NEW_FILE_SHA=$(git hash-object $file)
 
   if [[ $EXISTING_FILE_SHA != $NEW_FILE_SHA ]]; then
+    let TOTAL_FILES_CHANGED=$TOTAL_FILES_CHANGED+1
     FILES_TO_UPDATE="$FILES_TO_UPDATE$TARGET_FILE_NAME, "
     TREE_NODES="$TREE_NODES$(createNode $file),"
   fi
@@ -75,7 +77,7 @@ SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
 
 ## Create commit based on new tree, keep new tree ref
 CREATE_COMMIT_PAYLOAD=$(jq -n -c \
-                        --arg message "Sent from $GITHUB_REPOSITORY, version $GITHUB_SHA" \
+                        --arg message "$TOTAL_FILES_CHANGED file(s) updated by $GITHUB_REPOSITORY, version $SHORT_SHA" \
                         --arg tree $UPDATED_TREE_SHA \
                         --arg name "Personbruker Workflow Authority" \
                         --arg email "personbruker@nav.no" \
