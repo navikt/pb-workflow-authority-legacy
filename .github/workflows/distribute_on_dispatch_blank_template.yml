@@ -1,0 +1,24 @@
+name: Publiser workflows til repoer kun bestemt av payload.
+
+on:
+  repository_dispatch:
+    types: distribute-workflows-template
+
+env:
+  DRY_RUN: ${{ github.event.client_payload.dry_run }}
+  TEAM_NAME: ${{ github.event.client_payload.team_name }}
+  INCLUDE: ${{ github.event.client_payload.include }}
+  EXCLUDE: ${{ github.event.client_payload.exclude }}
+
+jobs:
+  build-and-publish-on-master:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Distribute workflows
+        run: |
+          ./distribute_workflows.sh
+        env:
+          API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
