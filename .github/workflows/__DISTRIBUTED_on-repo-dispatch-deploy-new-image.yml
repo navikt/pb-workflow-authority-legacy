@@ -17,11 +17,11 @@ jobs:
       - name: 'Sjekk ut koden for dette repo-et'
         uses: 'actions/checkout@v2'
         with:
-          FETCH-DEPTH: 0
+          FETCH-DEPTH: '0'
 
       - name: 'Sjekker ut en branchen det ønskes å lage et docker-image for'
         run: |
-          git fetch --no-tags --prune origin +refs/heads/*:refs/remotes/origin/*
+          git fetch --prune origin +refs/heads/*:refs/remotes/origin/*
           git checkout $GIT_REF
           echo "::set-env name=CURRENT_REF::$(git log -1 --pretty='%H')"
 
