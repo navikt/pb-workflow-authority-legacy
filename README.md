@@ -1,6 +1,7 @@
 # Personbruker Felles Workflows
 
-#### Dette prosjektet brukes til å definere og distribuere sentralt definerte workflows til andre repoer.
+#### Dette prosjektet brukes til å definere og distribuere sentralt definerte workflows til andre repoer. 
+#### Dette prosjektet er en klone av pb-workflow-authority, og er ment for apper som bl. annet krever java 8.
 
 ## Bruk
 
