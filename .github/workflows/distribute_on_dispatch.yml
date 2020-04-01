@@ -20,7 +20,7 @@ jobs:
         env:
           API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
           TEAM_NAME: ""
-          INCLUDE: "saksoversikt saksoversikt-api utbetalingsoversikt utbetalingsoversikt-api varselinnboks innloggingslinje-api dittnav dittnav-legacy-api innloggingsinfo innloggingsinfo-api"
+          INCLUDE: "saksoversikt saksoversikt-api utbetalingsoversikt utbetalingsoversikt-api varselinnboks innloggingslinje-api dittnav-legacy-api innloggingsinfo innloggingsinfo-api"
           EXCLUDE: ""
 
 
