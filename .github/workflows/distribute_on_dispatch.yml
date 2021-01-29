@@ -8,11 +8,15 @@ env:
   DRY_RUN: ${{ github.event.client_payload.dry_run }}
 
 jobs:
-  build-and-publish-on-master:
-    runs-on: ubuntu-latest
+  build-and-publish-on-main:
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - name: Read list of default apps
+        run: |
+          echo "DEFAULT_APPS=$(cat ./config/default_include_apps.conf | tr '\n' ' ')" >> $GITHUB_ENV
 
       - name: Distribute workflows
         run: |
@@ -20,9 +24,6 @@ jobs:
         env:
           API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}
           TEAM_NAME: ""
-          INCLUDE: "saksoversikt saksoversikt-api utbetalingsoversikt utbetalingsoversikt-api varselinnboks innloggingslinje-api dittnav-legacy-api innloggingsinfo innloggingsinfo-api"
+          INCLUDE: ${{ env.DEFAULT_APPS }}
           EXCLUDE: ""
-
-
-
-
+          DELETE_CONFIG: "./config/workflow_files_to_delete.conf"

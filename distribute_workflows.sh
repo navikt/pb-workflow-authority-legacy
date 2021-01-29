@@ -29,9 +29,9 @@ done
 
 ## Distribute files for each project
 for repository in $REPOSITORIES; do
-  if [[ $repository == $GITHUB_REPOSITORY || "navikt/$repository" == $GITHUB_REPOSITORY ]]; then
+  if [[ $repository == $GITHUB_REPOSITORY ]]; then
     echo "Should not distribute files to same repository. Skipping $repository"
   else
-    ./push_workflow_files.sh $repository
+    ./push_workflow_files.sh $repository ./.github/workflows $DELETE_CONFIG
   fi
 done

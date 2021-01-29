@@ -11,8 +11,8 @@ env:
   EXCLUDE: ${{ github.event.client_payload.exclude }}
 
 jobs:
-  build-and-publish-on-master:
-    runs-on: ubuntu-latest
+  build-and-publish-on-main:
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2

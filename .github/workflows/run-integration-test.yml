@@ -1,0 +1,16 @@
+name: Kjør integrasjonstest
+
+on: push
+
+jobs:
+  build-branch:
+    runs-on: ubuntu-20.04
+    steps:
+
+      - name: Sjekk ut koden
+        uses: actions/checkout@v2
+
+      - name: Run github integration test
+        run: ./test/github_integration_test.sh
+        env:
+          API_ACCESS_TOKEN: ${{ secrets.API_ACCESS_TOKEN }}

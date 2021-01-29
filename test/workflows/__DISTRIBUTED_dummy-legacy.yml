@@ -1,0 +1,14 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-publish-on-main:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Echo datetime
+        run: echo "Datetime - 00000000000000"
